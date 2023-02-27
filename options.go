@@ -3,12 +3,20 @@ package async
 type Option func(*config)
 
 type config struct {
-	chanSize int
+	chanSizeData int
+	chanSizeErr  int
 }
 
-// WithChanSize changes the default channel size to the assigned number
-func WithChanSize(size int) Option {
+// WithChanSizeData changes the default channel size to the assigned number
+func WithChanSizeData(size int) Option {
 	return func(c *config) {
-		c.chanSize = size
+		c.chanSizeData = size
+	}
+}
+
+// WithChanSizeErr changes the default channel size to the assigned number
+func WithChanSizeErr(size int) Option {
+	return func(c *config) {
+		c.chanSizeErr = size
 	}
 }

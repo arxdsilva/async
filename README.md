@@ -1,5 +1,7 @@
 # async
 
+Simple golang worker sync pool that matches your best number of goroutines with the available CPUs. This optimizes the number of go routines so that you always have the best performance.
+
 This lib does:
 1. create go routines according to your number of available CPUs;
 2. sync the work to be done by them;
@@ -34,7 +36,10 @@ func main() {
     ... // 1. start your app
     workFn := myFunction // 2.define your work function
 
-    dataChan, errChan := async.New(ctx, workFn) // 3. setup the async lib
+    dataChan, errChan := async.New(
+        ctx, workFn, 
+        async.WithChanSizeData(1000),
+        async.WithChanSizeErr(2)) // 3. setup the async lib
 
     mw := myWorker{
         DC: dataChan, // 4. Setup your worker to send data to the async execution

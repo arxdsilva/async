@@ -48,13 +48,14 @@ func work(ctx context.Context, wg *sync.WaitGroup, fn WorkFunc, data <-chan inte
 // 2. logs
 func New(ctx context.Context, fn WorkFunc, options ...Option) (dataChan chan interface{}, errChan chan error) {
 	cfg := &config{
-		chanSize: 10,
+		chanSizeData: 100,
+		chanSizeErr:  10,
 	}
 	for _, option := range options {
 		option(cfg)
 	}
-	dataChan = make(chan interface{}, cfg.chanSize)
-	errChan = make(chan error, cfg.chanSize)
+	dataChan = make(chan interface{}, cfg.chanSizeData)
+	errChan = make(chan error, cfg.chanSizeErr)
 	go Async(ctx, fn, dataChan, errChan)
 	return
 }
